@@ -1,0 +1,205 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Usuários
+model Users {
+  id        String   @id @default(uuid())
+  name      String   @db.VarChar(100)
+  email     String   @unique @db.VarChar(200)
+  username  String   @db.VarChar(60)
+  password  String
+  office    String   @db.VarChar(80)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Role   Role?   @relation(fields: [roleId], references: [id])
+  roleId String?
+  @@map("users")
+}
+
+//Setor
+model Role {
+  id        String   @id @default(uuid())
+  name      String
+  isActive  Boolean  @default(true)
+  isAdmin   Boolean
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  idUser    Users[]
+
+  @@map("roles")
+}
+
+//Produtos
+model Product {
+  id               String   @id @default(uuid())
+  references       String   @db.VarChar(30)
+  company          String
+  description      String
+  unity            String   @db.VarChar(12)
+  codbar           String   @unique @db.Char(13)
+  isBalance        Boolean
+  isActive         Boolean  @default(true)
+  categoryId       String
+  subCategoryId    String
+  codManufacturer  String   @db.VarChar(30)
+  provider         String
+  costPrice        Float
+  salePrice        Float
+  profitMargin     Float
+  minimumStock     Float
+  maximumStock     Float
+  stockBalance     Float
+  numNcm           String   @db.Char(8)
+  numCest          String   @db.Char(7)
+  sourceId         String
+  cstIcmsId        String
+  csosnIcmsId      String
+  anpId            String
+  scale            String   @db.Char(1)
+  cstIpiId         String
+  cstPisId         String
+  cstCofinsId      String
+  icms             Float
+  extIpi           String
+  ipi              Float
+  pis              Float
+  cofins           String
+  shippingPercen   Float
+  dateLastPurchase DateTime
+  dateLastSale     DateTime
+  weight           Float
+  netWeight        Float
+  detail           String
+  banner           String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  Category    Category    @relation(fields: [categoryId], references: [id])
+  SubCategory SubCategory @relation(fields: [subCategoryId], references: [id])
+  source      Source      @relation(fields: [sourceId], references: [id])
+  CstIcms     CstIcms     @relation(fields: [cstIcmsId], references: [id])
+  CsosnIcms   CsosnIcms   @relation(fields: [csosnIcmsId], references: [id])
+  Anp         Anp         @relation(fields: [anpId], references: [id])
+  CstIpi      CstIpi      @relation(fields: [cstIpiId], references: [id])
+  CstPis      CstPis      @relation(fields: [cstPisId], references: [id])
+  CstCofins   CstCofins   @relation(fields: [cstCofinsId], references: [id])
+  @@map("products")
+}
+
+//Grupos
+model Category {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  idProduct Product[]
+
+  @@map("categories")
+}
+
+//Sub-Grupos
+model SubCategory {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  idSubCategory Product[]
+
+  @@map("subCategories")
+}
+
+//NCM
+model Ncm {
+  id        String  @id @default(uuid())
+  Cest      String  @db.Char(7)
+  codigo    String  @db.Char(8)
+  descricao String
+  isActive  Boolean
+
+  @@map("ncm")
+}
+
+//Local
+model Source {
+  id       String  @id @default(uuid())
+  name     String  @db.VarChar(200)
+  isActive Boolean
+
+  idSource Product[]
+
+  @@map("source")
+}
+
+//CSTICMS
+model CstIcms {
+  id   String @id @default(uuid())
+  name String @db.VarChar(200)
+
+  idCstIcms Product[]
+
+  @@map("cstIcms")
+}
+
+//CSOSN-ICMS
+model CsosnIcms {
+  id      String @id @default(uuid())
+  name    String @db.VarChar(200)
+  cstList String
+
+  idCsosnIcms Product[]
+
+  @@map("csosnIcms")
+}
+
+//Código ANP
+model Anp {
+  id   String @id @default(uuid())
+  name String @db.VarChar(200)
+
+  idAnp Product[]
+
+  @@map("anp")
+}
+
+//CST IPI
+model CstIpi {
+  id   String @id @default(uuid())
+  name String @db.VarChar(200)
+  type String @db.Char(1)
+
+  idCstIpi Product[]
+
+  @@map("cstIpi")
+}
+
+//CST PIS
+model CstPis {
+  id   String @id @default(uuid())
+  name String @db.VarChar(200)
+
+  idCstPis Product[]
+
+  @@map("cstPis")
+}
+
+//CST COFINS
+model CstCofins {
+  id   String @id @default(uuid())
+  name String @db.VarChar(200)
+
+  idCstCofins Product[]
+
+  @@map("cstCofins")
+}
