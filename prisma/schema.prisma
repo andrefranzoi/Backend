@@ -39,58 +39,22 @@ model Role {
 
 //Produtos
 model Product {
-  id               String   @id @default(uuid())
-  references       String   @db.VarChar(30)
-  company          String
-  description      String
-  unity            String   @db.VarChar(12)
-  codbar           String   @unique @db.Char(13)
-  isBalance        Boolean
-  isActive         Boolean  @default(true)
-  categoryId       String
-  subCategoryId    String
-  codManufacturer  String   @db.VarChar(30)
-  provider         String
-  costPrice        Float
-  salePrice        Float
-  profitMargin     Float
-  minimumStock     Float
-  maximumStock     Float
-  stockBalance     Float
-  numNcm           String   @db.Char(8)
-  numCest          String   @db.Char(7)
-  sourceId         String
-  cstIcmsId        String
-  csosnIcmsId      String
-  anpId            String
-  scale            String   @db.Char(1)
-  cstIpiId         String
-  cstPisId         String
-  cstCofinsId      String
-  icms             Float
-  extIpi           String
-  ipi              Float
-  pis              Float
-  cofins           String
-  shippingPercen   Float
-  dateLastPurchase DateTime
-  dateLastSale     DateTime
-  weight           Float
-  netWeight        Float
-  detail           String
-  banner           String
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  id        String   @id @default(uuid())
+  name      String
+  unity     String   @db.VarChar(12)
+  codbar    String   @unique @db.Char(13)
+  isActive  Boolean? @default(true)
+  costPrice Float    @default(0.00)
+  salePrice Float    @default(0.00)
+  ncm       String   @db.Char(8)
+  cest      String   @db.Char(7)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  Category    Category    @relation(fields: [categoryId], references: [id])
-  SubCategory SubCategory @relation(fields: [subCategoryId], references: [id])
-  source      Source      @relation(fields: [sourceId], references: [id])
-  CstIcms     CstIcms     @relation(fields: [cstIcmsId], references: [id])
-  CsosnIcms   CsosnIcms   @relation(fields: [csosnIcmsId], references: [id])
-  Anp         Anp         @relation(fields: [anpId], references: [id])
-  CstIpi      CstIpi      @relation(fields: [cstIpiId], references: [id])
-  CstPis      CstPis      @relation(fields: [cstPisId], references: [id])
-  CstCofins   CstCofins   @relation(fields: [cstCofinsId], references: [id])
+  Category      Category?    @relation(fields: [categoryId], references: [id])
+  categoryId    String?
+  SubCategory   SubCategory? @relation(fields: [subCategoryId], references: [id])
+  subCategoryId String?
   @@map("products")
 }
 
@@ -102,7 +66,7 @@ model Category {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  idProduct Product[]
+  products Product[]
 
   @@map("categories")
 }
@@ -115,91 +79,7 @@ model SubCategory {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  idSubCategory Product[]
+  products Product[]
 
   @@map("subCategories")
-}
-
-//NCM
-model Ncm {
-  id        String  @id @default(uuid())
-  Cest      String  @db.Char(7)
-  codigo    String  @db.Char(8)
-  descricao String
-  isActive  Boolean
-
-  @@map("ncm")
-}
-
-//Local
-model Source {
-  id       String  @id @default(uuid())
-  name     String  @db.VarChar(200)
-  isActive Boolean
-
-  idSource Product[]
-
-  @@map("source")
-}
-
-//CSTICMS
-model CstIcms {
-  id   String @id @default(uuid())
-  name String @db.VarChar(200)
-
-  idCstIcms Product[]
-
-  @@map("cstIcms")
-}
-
-//CSOSN-ICMS
-model CsosnIcms {
-  id      String @id @default(uuid())
-  name    String @db.VarChar(200)
-  cstList String
-
-  idCsosnIcms Product[]
-
-  @@map("csosnIcms")
-}
-
-//Código ANP
-model Anp {
-  id   String @id @default(uuid())
-  name String @db.VarChar(200)
-
-  idAnp Product[]
-
-  @@map("anp")
-}
-
-//CST IPI
-model CstIpi {
-  id   String @id @default(uuid())
-  name String @db.VarChar(200)
-  type String @db.Char(1)
-
-  idCstIpi Product[]
-
-  @@map("cstIpi")
-}
-
-//CST PIS
-model CstPis {
-  id   String @id @default(uuid())
-  name String @db.VarChar(200)
-
-  idCstPis Product[]
-
-  @@map("cstPis")
-}
-
-//CST COFINS
-model CstCofins {
-  id   String @id @default(uuid())
-  name String @db.VarChar(200)
-
-  idCstCofins Product[]
-
-  @@map("cstCofins")
 }

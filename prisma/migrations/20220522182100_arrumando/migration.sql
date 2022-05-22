@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "products" ALTER COLUMN "isBalance" DROP NOT NULL,
+ALTER COLUMN "isActive" DROP NOT NULL,
+ALTER COLUMN "dateLastPurchase" DROP NOT NULL,
+ALTER COLUMN "dateLastSale" DROP NOT NULL;

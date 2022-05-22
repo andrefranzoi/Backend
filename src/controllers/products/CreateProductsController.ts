@@ -3,9 +3,21 @@ import { CreateProductsService } from '../../services/products/CreateProductsSer
 
 class CreateProductsController {
   async handle(req: Request, res: Response) {
+    const { name, unity, codbar, costprice, salePrice, ncm, cest, categoryId, subCategoryId } = req.body;
+
     const createProductsService = new CreateProductsService();
 
-    const products = await createProductsService.execute();
+    const products = await createProductsService.execute({
+      name: name,
+      unity: unity,
+      codbar: codbar,
+      costPrice: costprice,
+      salePrice: salePrice,
+      ncm: ncm,
+      cest: cest,
+      categoryId: categoryId,
+      subCategoryId: subCategoryId,
+    });
 
     return res.json(products)
   }
