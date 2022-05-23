@@ -10,11 +10,16 @@ interface ProductRequest {
   cest: string;
   categoryId: string;
   subCategoryId: string;
+  id: string;
+  isActive: boolean;
 }
 
-class CreateProductsService {
-  async execute({ name, unity, codbar, costPrice, salePrice, ncm, cest, categoryId, subCategoryId }: ProductRequest) {
-    const product = await prismaclient.product.create({
+class UpdateProductsServices {
+  async execute({ name, unity, codbar, costPrice, salePrice, ncm, cest, categoryId, subCategoryId, id, isActive }: ProductRequest) {
+    const product = await prismaclient.product.update({
+      where: {
+        id: id
+      },
       data: {
         name: name,
         unity: unity,
@@ -25,6 +30,7 @@ class CreateProductsService {
         cest: cest,
         categoryId: categoryId,
         subCategoryId: subCategoryId,
+        isActive: isActive,
       },
       select: {
         id: true,
@@ -43,4 +49,4 @@ class CreateProductsService {
   }
 }
 
-export { CreateProductsService }
+export { UpdateProductsServices }

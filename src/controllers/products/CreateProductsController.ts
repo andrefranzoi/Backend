@@ -3,7 +3,7 @@ import { CreateProductsService } from '../../services/products/CreateProductsSer
 
 class CreateProductsController {
   async handle(req: Request, res: Response) {
-    const { name, unity, codbar, costprice, salePrice, ncm, cest, categoryId, subCategoryId } = req.body;
+    const { name, unity, codbar, costPrice, salePrice, ncm, cest, categoryId, subCategoryId } = req.body;
 
     const createProductsService = new CreateProductsService();
 
@@ -11,7 +11,7 @@ class CreateProductsController {
       name: name,
       unity: unity,
       codbar: codbar,
-      costPrice: costprice,
+      costPrice: costPrice,
       salePrice: salePrice,
       ncm: ncm,
       cest: cest,

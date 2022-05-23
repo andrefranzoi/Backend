@@ -7,6 +7,9 @@ import { DetailUserController } from "./controllers/users/DetailUserController";
 
 //PRODUTOS
 import { CreateProductsController } from "./controllers/products/CreateProductsController";
+import { ListProductsControllers } from "./controllers/products/ListProductsControllers";
+import { UpdateProductsControllers } from "./controllers/products/UpdateProductsControllers";
+import { DeleteProductsControllers } from "./controllers/products/DeleteProductsControllers"
 
 //CATEGORIAS
 import { CreateCategoryController } from './controllers/categories/CreateCategoryController';
@@ -25,6 +28,9 @@ router.get("/users/me", new DetailUserController().handle);
 
 //-- ROTAS PRODUTOS --
 router.post("/products/create", new CreateProductsController().handle);
+router.get("/products/list", new ListProductsControllers().handle);
+router.put("/products/update", new UpdateProductsControllers().handle);
+router.delete("/products/delete", new DeleteProductsControllers().handle);
 
 //-- ROTAS CATEGORIAS --
 router.post('/categories/create', new CreateCategoryController().handle);
